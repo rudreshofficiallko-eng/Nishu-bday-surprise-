@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday Nishu</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1d1b4b;--dusk:#3a2a6b;--sun:#ff8a4c;--rose:#ff5d8f;--paper:#fff4e0;--ink:#2a1f4d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;}
+body{background:linear-gradient(180deg,var(--night) 0%,var(--dusk) 55%,#b0455f 100%);color:var(--paper);font-family:"Baloo 2",system-ui,sans-serif;text-align:center;min-height:100vh;overflow-x:hidden}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:5}
+.screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px}
+.hide{display:none}
+.ticket{background:var(--paper);color:var(--ink);width:min(340px,100%);border-radius:14px;padding:22px 20px;cursor:pointer;border:0;font:inherit;position:relative;box-shadow:0 18px 40px rgba(0,0,0,.35);transform:rotate(-2deg);transition:transform .2s}
+.ticket:active{transform:rotate(0) scale(.97)}
+.ticket:focus-visible{outline:3px solid var(--sun);outline-offset:4px}
+.ticket small{display:block;font-size:14px;opacity:.7}
+.ticket h1{margin:6px 0;font-size:30px;line-height:1.1;font-weight:800}
+.route{display:flex;justify-content:space-between;align-items:center;margin:14px 0;font-weight:800;font-size:20px;border-top:2px dashed #c9b28a;border-bottom:2px dashed #c9b28a;padding:10px 0}
+.route span:nth-child(2){font-size:14px;color:var(--rose)}
+.tap{font-family:Caveat,cursive;font-size:24px;color:var(--rose)}
+h2{font-size:clamp(34px,9vw,54px);line-height:1.05;margin:0 0 6px;font-weight:800}
+.hand{font-family:Caveat,cursive;font-size:clamp(24px,6vw,32px);color:var(--sun);margin:0 0 18px}
+.card{background:rgba(255,244,224,.08);border:1px solid rgba(255,244,224,.25);border-radius:18px;padding:20px;max-width:440px;text-align:left;line-height:1.55;font-size:18px}
+.card p{margin:0 0 12px}.card p:last-child{margin:0}
+.sign{font-family:Caveat,cursive;font-size:28px;text-align:right;color:var(--sun)}
+.cake{margin:22px 0 4px;cursor:pointer;background:none;border:0;color:inherit;font:inherit}
+.cake:focus-visible{outline:3px solid var(--sun);outline-offset:6px;border-radius:12px}
+.flame{transform-origin:50% 100%;animation:fl 1s ease-in-out infinite alternate}
+.off .flame{display:none}
+@keyframes fl{to{transform:scale(1.15,.9) rotate(3deg)}}
+@media(prefers-reduced-motion:reduce){.flame{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<section class="screen" id="s1">
+  <button class="ticket" id="board" aria-label="Open your birthday ticket">
+    <small>Bunny Express · Ticket for one legend</small>
+    <h1>Aditi, your birthday is here</h1>
+    <div class="route"><span>Lucknow</span><span>2 October</span><span>Forever</span></div>
+    <div class="tap">tap to board the train</div>
+  </button>
+</section>
+
+<section class="screen hide" id="s2">
+  <h2>Happy Birthday, Nishu!</h2>
+  <p class="hand">my one and only Aditi</p>
+  <div class="card">
+    <p>Bunny here. Every Bunny needs an Aditi, the one who stays real when the world gets loud, laughs at the silliest things and makes every plan better just by showing up.</p>
+    <p>Main udna chahta hoon, daudna chahta hoon, bas rukna nahi chahta, and you are the friend who makes that journey worth it.</p>
+    <p>Hope this year brings you big trips, bigger laughs and everything your heart asks for. Party toh banti hai, and I owe you one.</p>
+    <div class="sign">Teri Bunny se, with love</div>
+  </div>
+  <button class="cake" id="cake" aria-label="Blow out the candle">
+    <svg width="150" height="150" viewBox="0 0 150 150" aria-hidden="true">
+      <g class="flame"><path d="M75 16c10 14 12 22 0 32-12-10-10-18 0-32z" fill="#ffb84c"/><path d="M75 28c5 7 6 11 0 16-6-5-5-9 0-16z" fill="#ff5d3b"/></g>
+      <rect x="71" y="46" width="8" height="26" rx="3" fill="#fff4e0"/>
+      <rect x="28" y="72" width="94" height="30" rx="8" fill="#ff5d8f"/>
+      <path d="M28 82q12 14 24 0t24 0 24 0 22 0v-4H28z" fill="#fff4e0"/>
+      <rect x="18" y="102" width="114" height="30" rx="8" fill="#ff8a4c"/>
+    </svg>
+    <div class="hand" style="margin:0">tap to blow the candle</div>
+  </button>
+</section>
+
+<script>
+const cv=document.getElementById('c'),cx=cv.getContext('2d');let P=[],run=false;
+function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener('resize',size);
+function burst(){
+  const col=['#ff8a4c','#ff5d8f','#ffd36b','#2ec4b6','#fff4e0'];
+  for(let i=0;i<130;i++)P.push({x:cv.width/2,y:cv.height*.4,vx:(Math.random()-.5)*14,vy:Math.random()*-13-2,s:4+Math.random()*6,c:col[i%5],r:Math.random()*6});
+  if(!run){run=true;tick()}
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.vx*=.99;p.r+=.2;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);cx.restore()});
+  P=P.filter(p=>p.y<cv.height+20);
+  if(P.length)requestAnimationFrame(tick);else{run=false;cx.clearRect(0,0,cv.width,cv.height)}
+}
+document.getElementById('board').onclick=()=>{
+  document.getElementById('s1').classList.add('hide');
+  document.getElementById('s2').classList.remove('hide');
+  scrollTo(0,0);
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)burst();
+};
+document.getElementById('cake').onclick=function(){
+  this.classList.add('off');
+  this.querySelector('.hand').textContent='Make a wish, Aditi!';
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)burst();
+};
+</script>
+</body>
+</html>
